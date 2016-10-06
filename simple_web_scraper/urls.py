@@ -14,7 +14,9 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from simple_web_scraper import views
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^api/rest/v1/articles$', views.articles),
 ]

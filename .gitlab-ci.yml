@@ -1,0 +1,8 @@
+# some example of GitLab's CI file for python projects
+# - https://dezoito.github.io/2016/05/11/django-gitlab-continuous-integration-phantomjs.html
+# - https://docs.gitlab.com/ce/ci/examples/test-and-deploy-python-application-to-heroku.html
+image: python:3.5
+
+test:
+  script:
+    - python3 manage.py test

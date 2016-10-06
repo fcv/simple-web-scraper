@@ -19,9 +19,15 @@ from simple_web_scraper import views
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^api/rest/v1/articles$', views.articles),
+
+    # /articles
+    url(r'^api/rest/v1/articles/?$', views.ArticleList.as_view()),
+    url(r'^api/rest/v1/articles/(?P<id>[0-9]+)/?$', views.ArticleDetail.as_view()),
+
+    # /authors
     url(r'^api/rest/v1/authors/?$', views.AuthorList.as_view()),
     url(r'^api/rest/v1/authors/(?P<id>[0-9]+)/?$', views.AuthorDetail.as_view()),
+
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

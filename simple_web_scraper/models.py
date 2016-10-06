@@ -1,7 +1,6 @@
 from django.db import models
 from rest_framework import serializers
 
-
 class Author(models.Model):
 
     name = models.CharField(max_length=100)
@@ -22,6 +21,8 @@ class Article(models.Model):
     title = models.CharField(max_length=100)
     url = models.URLField()
     authors = models.ManyToManyField(Author)
+    publish_date = models.DateTimeField(blank=True,null=True)
+    content = models.CharField(max_length=500)
 
     def __str__(self):
         return u'%s %s' % (self.id, self.title)
@@ -30,7 +31,7 @@ class Article(models.Model):
 class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
-        fields = ('id', 'title', 'url', 'authors')
+        fields = ('id', 'title', 'url', 'publish_date', 'content')
 
 
 authors = [

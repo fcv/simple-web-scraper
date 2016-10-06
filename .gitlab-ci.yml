@@ -6,4 +6,5 @@ image: python:3.5
 test:
   script:
     - pip install django==1.8.13
+    - pip install jsonpath-rw==1.4.0
     - python3 manage.py test

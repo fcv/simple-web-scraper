@@ -14,9 +14,14 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from rest_framework.urlpatterns import format_suffix_patterns
 from simple_web_scraper import views
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/rest/v1/articles$', views.articles),
+    url(r'^api/rest/v1/authors/?$', views.AuthorList.as_view()),
+    url(r'^api/rest/v1/authors/(?P<id>[0-9]+)/?$', views.AuthorDetail.as_view()),
 ]
+
+urlpatterns = format_suffix_patterns(urlpatterns)

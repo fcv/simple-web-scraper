@@ -17,14 +17,14 @@ class ArticleList(APIView):
     """
 
     def get(self, request, format = None):
-        articles = models.articles
+        articles = Article.objects.all()
         serializer = ArticleSerializer(articles, many=True)
         return Response(serializer.data)
 
     def post(self, request, format = None):
         serializer = ArticleSerializer(data=request.data)
         if serializer.is_valid():
-            # print(serializer.data)
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -35,27 +35,28 @@ class ArticleDetail(APIView):
             id = int(id)
         except ValueError:
             raise HttpResponseBadRequest()
-        article = next(filter(lambda a: a.id == id, models.articles), None)
-        if article is None:
+        try:
+            article = Article.objects.get(pk = id)
+        except Article.DoesNotExist:
             raise Http404
         return article
 
     def get(self, request, id, format=None):
         article = self.get_object(id)
-        serializer = AuthorSerializer(article)
+        serializer = ArticleSerializer(article)
         return Response(serializer.data)
 
     def put(self, request, id, format=None):
         article = self.get_object(id)
         serializer = ArticleSerializer(article, data=request.data)
         if serializer.is_valid():
-            # print(serializer.data)
+            serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, id, format=None):
         article = self.get_object(id)
-        # article.delete()
+        article.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 class AuthorList(APIView):
@@ -69,14 +70,14 @@ class AuthorList(APIView):
     """
 
     def get(self, request, format = None):
-        authors = models.authors
+        authors = Author.objects.all()
         serializer = AuthorSerializer(authors, many=True)
         return Response(serializer.data)
 
     def post(self, request, format = None):
         serializer = AuthorSerializer(data=request.data)
         if serializer.is_valid():
-            # print(serializer.data)
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -88,8 +89,9 @@ class AuthorDetail(APIView):
             id = int(id)
         except ValueError:
             raise HttpResponseBadRequest()
-        author = next(filter(lambda a: a.id == id, models.authors), None)
-        if author is None:
+        try:
+            author = Author.objects.get(pk = id)
+        except Author.DoesNotExist:
             raise Http404
         return author
 
@@ -102,11 +104,11 @@ class AuthorDetail(APIView):
         author = self.get_object(id)
         serializer = AuthorSerializer(author, data=request.data)
         if serializer.is_valid():
-            # print(serializer.data)
+            serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, id, format=None):
         author = self.get_object(id)
-        # author.delete()
+        author.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

@@ -1,10 +1,11 @@
-import unittest
-from django.test import Client
+from django.test import Client, TransactionTestCase
 import json
 from jsonpath_rw import jsonpath, parse
 
-class ArticleEndpointTest(unittest.TestCase):
 
+class ArticleEndpointTest(TransactionTestCase):
+
+    fixtures = ['articles_and_authors.json']
     endpoint = '/api/rest/v1/articles'
 
     def test_list(self):
@@ -17,7 +18,7 @@ class ArticleEndpointTest(unittest.TestCase):
         # see more about jsonpath at http://goessner.net/articles/JsonPath/
         # and its python port at https://github.com/kennknowles/python-jsonpath-rw
         actual_ids = [match.value for match in parse('$.[*].id').find(content_json)]
-        self.assertEquals([3], actual_ids)
+        self.assertEquals([1], actual_ids)
 
     def test_404_when_id_doesnt_exist(self):
         client = Client()
@@ -27,7 +28,6 @@ class ArticleEndpointTest(unittest.TestCase):
     def test_post(self):
         client = Client()
         json_str = json.dumps({
-            "id": 1,
             "title": "a nice title",
             "url": "http://johndoo.org",
             "content": "dummy content",
@@ -37,7 +37,7 @@ class ArticleEndpointTest(unittest.TestCase):
 
     def test_delete(self):
         client = Client()
-        response = client.delete(ArticleEndpointTest.endpoint + '/3')
+        response = client.delete(ArticleEndpointTest.endpoint + '/1')
         self.assertEqual(response.status_code, 204)
 
     def test_delete_not_found(self):

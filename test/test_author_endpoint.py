@@ -1,11 +1,11 @@
-import unittest
-from django.test import Client
+from django.test import Client, TransactionTestCase
 import json
 from jsonpath_rw import jsonpath, parse
 
 
-class AuthorEndpointTest(unittest.TestCase):
+class AuthorEndpointTest(TransactionTestCase):
 
+    fixtures = ['articles_and_authors.json']
     endpoint = '/api/rest/v1/authors'
 
     def test_list(self):

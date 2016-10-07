@@ -75,11 +75,20 @@ WSGI_APPLICATION = 'simple_web_scraper.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-
+# https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04
+# https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04
+# http://stackoverflow.com/questions/5394331/how-to-setup-postgresql-database-in-django/5421511#5421511
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'web_scraper',
+        'USER': 'web_scraper_user',
+        'PASSWORD': 'web_scraper_pwd',
+        'HOST': 'localhost',
+        'PORT': '5432',
+        'TEST': {
+            'NAME': 'web_scraper_test'
+        }
     }
 }
 

@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import traceback
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -78,14 +79,17 @@ WSGI_APPLICATION = 'simple_web_scraper.wsgi.application'
 # https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04
 # https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04
 # http://stackoverflow.com/questions/5394331/how-to-setup-postgresql-database-in-django/5421511#5421511
+#
+# Note: this default values target GitLab's CI environment
+# In order to customize local environment's value use an untracked `simple_web_scraper/local_settings.py` file
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'web_scraper',
         'USER': 'web_scraper_user',
         'PASSWORD': 'web_scraper_pwd',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'HOST': 'postgres',
+        'PORT': '',
         'TEST': {
             'NAME': 'web_scraper_test'
         }
@@ -111,3 +115,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# using custom local setting based on
+# http://stackoverflow.com/questions/1626326/how-to-manage-local-vs-production-settings-in-django/1629770#1629770
+# in the future other alternatives might be considered, like
+#  - https://github.com/sobolevn/django-split-settings
+try:
+    from simple_web_scraper.local_settings import *
+except ImportError as e:
+    traceback.print_exc()
+    pass

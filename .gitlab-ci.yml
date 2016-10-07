@@ -25,4 +25,4 @@ test:
     # install project's dependencies
     - pip install -r requirements.txt
     # actually execute tests
-    - python3 manage.py test
+    - python3 manage.py test --noinput

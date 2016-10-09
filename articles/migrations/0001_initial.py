@@ -31,6 +31,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='article',
             name='authors',
-            field=models.ManyToManyField(to='simple_web_scraper.Author'),
+            field=models.ManyToManyField(to='articles.Author'),
         ),
     ]

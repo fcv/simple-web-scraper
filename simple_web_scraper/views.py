@@ -1,6 +1,5 @@
 from django.http import HttpResponse, Http404, HttpResponseBadRequest
-from simple_web_scraper import models
-from .models import Author, AuthorSerializer, Article, ArticleSerializer
+from articles.models import Author, AuthorSerializer, Article, ArticleSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status

@@ -4,13 +4,45 @@
 
 Simple Web Scraper POC project. Aims to retrieve data from a Web Page and expose extracted data through a REST API.
 
-## Web Spider
+## Development
+
+Simple Web Scraper has been develop on Python3 using [Django](https://www.djangoproject.com/) and [Scrapy](https://scrapy.org/) among other libraries.
+
+### Virtual Environment
+
+In order to build system locally is highly recommended to use a [Virtual Environment](http://docs.python-guide.org/en/latest/dev/virtualenvs/).
+
+In an Ubuntu system Python's virtual environment tool may be installed using  command:
+
+    $ apt-get install virtualenv
+
+After that a new virtual environment may be created executing:
+
+    $ virtualenv ~/path/to/new_virtual_env
+
+Then `new_virtual_env` may be activated by:
+
+    $ . ~/path/to/new_virtual_env/bin/activate
+
+Bash prefix would change prepending virtual environment's name indicating that virtual environment is activated. Example:
+
+    $ (new_virtual_env) user@host:~$
+
+In order to deactivate virtual environment one might execute command `deactivate`.
+
+### Install Project's Dependencies
+
+Project dependencies are declared in `requirements.txt` file and may be installed using [pip](https://en.wikipedia.org/wiki/Pip_(package_manager)) command. Remember installing them within virtual environment.
+
+    $ (new_virtual_env) user@host:~/simple-web-scraper$ pip install -r requirements.txt
+
+### Web Spider
 
 Web Spider is implemented using [scapy](https://github.com/scrapy/scrapy) library. Web spider crawling process may be triggered by executing `scrapy crawl <spider_name>` under `./scraper` folder. Example:
 
     user@host:~/simple-web-scraper/scraper$ scrapy crawl tech_crunch
 
-## REST API
+### REST API
 
 Extracted data is accessible through REST API's endpoints.
  
@@ -30,7 +62,7 @@ Available endpoints are `/api/rest/v1/authors/` and `/api/rest/v1/articles/`. Ex
         }
     ]
 
-## Note about PostgreSQL usage
+### Note about PostgreSQL usage
 
 In ubuntu environment, in order to install PostgreSQL database adapter [psycopg2](https://pypi.python.org/pypi/psycopg2) it is necessary first to install `libpq-dev` package in order to avoid error message like one below:
 

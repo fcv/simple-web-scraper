@@ -20,7 +20,10 @@ class TechChunchSpider(Spider):
             byline = block.css('.byline')
             # raw data formatted as '2016-10-07 07:03:28'
             raw_publish_date = byline.css('time::attr(datetime)').extract_first()
-            publish_date = datetime.strptime(raw_publish_date, '%Y-%m-%d %H:%M:%S')
+            try:
+                publish_date = datetime.strptime(raw_publish_date, '%Y-%m-%d %H:%M:%S')
+            except (TypeError, ValueError) as e:
+                publish_date = None
             author_url = byline.css('a[rel=author]::attr(href)').extract_first()
             author_name = byline.css('a[rel=author]::text').extract_first()
             tags = block.css('.tags .tag > span::text').extract()

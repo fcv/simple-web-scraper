@@ -77,25 +77,35 @@ WSGI_APPLICATION = 'simple_web_scraper.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-# https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04
-# https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04
-# http://stackoverflow.com/questions/5394331/how-to-setup-postgresql-database-in-django/5421511#5421511
 #
-# Note: this default values target GitLab's CI environment
-# In order to customize local environment's value use an untracked `simple_web_scraper/local_settings.py` file
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'web_scraper',
-        'USER': 'web_scraper_user',
-        'PASSWORD': 'web_scraper_pwd',
-        'HOST': 'postgres',
-        'PORT': '',
-        'TEST': {
-            'NAME': 'web_scraper_test'
+# uses 'DATABASE_URL' environment value to define Database connection when present.
+# used in Heroku environment
+import dj_database_url
+if 'DATABASE_URL' in os.environ:
+    # see examples of database urls at https://github.com/kennethreitz/dj-database-url/blob/afc4d3946c041ad0f5c70609a6d5e4e39ff54919/README.rst#url-schema
+    DATABASES = {
+        'default': dj_database_url.parse(os.environ['DATABASE_URL']),
+    }
+else:
+    # https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04
+    # https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04
+    # http://stackoverflow.com/questions/5394331/how-to-setup-postgresql-database-in-django/5421511#5421511
+    #
+    # Note: this default values target GitLab's CI environment
+    # In order to customize local environment's value use an untracked `simple_web_scraper/local_settings.py` file
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'web_scraper',
+            'USER': 'web_scraper_user',
+            'PASSWORD': 'web_scraper_pwd',
+            'HOST': 'postgres',
+            'PORT': '',
+            'TEST': {
+                'NAME': 'web_scraper_test'
+            }
         }
     }
-}
 
 
 # Internationalization

@@ -24,9 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = ')yl85h8y*n5hy8w&_j*sba&%bj9$ad0xmy@&d%q038xu)j90gy'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG's default values has been set to False and should be changed to True
-# in local's untracked file `local_settings.py`
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -126,5 +124,4 @@ STATIC_URL = '/static/'
 try:
     from simple_web_scraper.local_settings import *
 except ImportError as e:
-    traceback.print_exc()
     pass

@@ -42,6 +42,12 @@ Web Spider is implemented using [scapy](https://github.com/scrapy/scrapy) librar
 
     user@host:~/simple-web-scraper/scraper$ scrapy crawl tech_crunch
 
+### Web App
+
+Web application maybe started by executing Django's `runserver` command. Example:
+
+    $ (new_virtual_env) user@host:~/simple-web-scraper$ python manage.py runserver
+
 ### REST API
 
 Extracted data is accessible through REST API's endpoints.

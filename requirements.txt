@@ -5,4 +5,5 @@ psycopg2==2.6.2
 scrapy==1.2
 scrapy-djangoitem==1.1.1
 gunicorn==19.4.5
+whitenoise==3.2.2
 dj-database-url==0.4.1

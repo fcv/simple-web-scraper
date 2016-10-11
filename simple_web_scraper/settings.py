@@ -76,6 +76,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'simple_web_scraper.wsgi.application'
 
+# see about serving gzipped static files with Whitenoise at Herokyu's doc page
+# https://devcenter.heroku.com/articles/django-assets
+if os.environ.get('WHITENOISE_ENABLED', '').lower() in {'true', '1'}:
+    STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases

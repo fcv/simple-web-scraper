@@ -18,6 +18,9 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from simple_web_scraper import views
 
 urlpatterns = [
+    url(r'^/$', views.home),
+    url(r'^$', views.home),
+
     url(r'^admin/', include(admin.site.urls)),
 
     # /articles

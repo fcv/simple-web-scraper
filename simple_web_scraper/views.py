@@ -1,4 +1,5 @@
 from django.http import HttpResponse, Http404, HttpResponseBadRequest
+from django.db.models import Q
 from articles.models import Author, AuthorSerializer, Article, ArticleSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -22,6 +23,12 @@ class ArticleList(APIView):
 
     def get(self, request, format = None):
         articles = Article.objects.all()
+        if 'q' in request.GET:
+            q = request.GET['q']
+            if q:
+                query = Q(title__icontains = q) | Q(content__icontains = q)
+                articles = articles.filter(query)
+
         serializer = ArticleSerializer(articles, many=True)
         return Response(serializer.data)
 

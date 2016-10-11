@@ -68,6 +68,19 @@ Available endpoints are `/api/rest/v1/authors/` and `/api/rest/v1/articles/`. Ex
         }
     ]
 
+Article's endpoint supports a query parameter named `"q"`. When provided system will return Articles whose title or content contains such value. Example:
+
+    $ curl -H 'Accept: application/json; indent=4' 'http://127.0.0.1:8000/api/rest/v1/articles?q=combo'
+    [
+        {
+            "id": 338,
+            "title": "Samsung’s combo desktop/speaker is a weird sort of art",
+            "url": "https://techcrunch.com/2016/10/10/art-pc/",
+            "publish_date": "2016-10-10T01:27:09Z",
+            "content": "If I’m Samsung, I’m looking for the next big product to capture the public’s attention while my public relations wing is attempting to put out all a whole lot of proverbial fires (to go along with the literal variety). This isn’t that. In fact, Samsung just kind of let this one loose into the world without any real fanfare. And it’s got a name to match.\nThe… "
+        }
+    ]
+
 ### Note about PostgreSQL usage
 
 In ubuntu environment, in order to install PostgreSQL database adapter [psycopg2](https://pypi.python.org/pypi/psycopg2) it is necessary first to install `libpq-dev` package in order to avoid error message like one below:

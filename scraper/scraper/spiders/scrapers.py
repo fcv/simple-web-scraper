@@ -2,7 +2,7 @@ import scrapy
 import re
 from datetime import datetime
 from scrapy import Spider, Request, Item
-from scraper.items import ArticleItem, AuthorItem
+from scraper.items import ArticleItem, AuthorItem, OutletItem
 
 
 class TechChunchSpider(Spider):
@@ -14,33 +14,45 @@ class TechChunchSpider(Spider):
     ]
 
     def parse(self, response):
-        for block in response.css('.river .river-block'):
-            url = block.xpath('@data-permalink').extract_first()
-            title = block.xpath('@data-sharetitle').extract_first()
-            byline = block.css('.byline')
-            # raw data formatted as '2016-10-07 07:03:28'
-            raw_publish_date = byline.css('time::attr(datetime)').extract_first()
-            try:
-                publish_date = datetime.strptime(raw_publish_date, '%Y-%m-%d %H:%M:%S')
-            except (TypeError, ValueError) as e:
-                publish_date = None
-            author_url = byline.css('a[rel=author]::attr(href)').extract_first()
-            author_name = byline.css('a[rel=author]::text').extract_first()
-            tags = block.css('.tags .tag > span::text').extract()
-            content = block.css('p.excerpt::text').extract_first()
-            yield ArticleItem(
-                title = title,
-                url = url,
-                publish_date = publish_date,
-                content = content,
-                # TODO
-                # authors = '',
-                # tags = tags,
-            )
 
-        for author_url in set(response.css('.river .river-block a[rel=author]::attr(href)').extract()):
-            author_url = response.urljoin(author_url)
-            yield Request(author_url, callback=self.parse_author)
+        name = response.css('meta[property="og:site_name"]::attr(content)').extract_first()
+        description = response.css('meta[property="og:description"]::attr(content)').extract_first()
+        logo_url = response.css('.logo-link img::attr(src)').extract_first()
+
+        yield OutletItem(
+            name = name,
+            description = description,
+            logo_url = logo_url,
+            url = 'https://techcrunch.com/',
+        )
+
+        # for block in response.css('.river .river-block'):
+        #     url = block.xpath('@data-permalink').extract_first()
+        #     title = block.xpath('@data-sharetitle').extract_first()
+        #     byline = block.css('.byline')
+        #     # raw data formatted as '2016-10-07 07:03:28'
+        #     raw_publish_date = byline.css('time::attr(datetime)').extract_first()
+        #     try:
+        #         publish_date = datetime.strptime(raw_publish_date, '%Y-%m-%d %H:%M:%S')
+        #     except (TypeError, ValueError) as e:
+        #         publish_date = None
+        #     author_url = byline.css('a[rel=author]::attr(href)').extract_first()
+        #     author_name = byline.css('a[rel=author]::text').extract_first()
+        #     tags = block.css('.tags .tag > span::text').extract()
+        #     content = block.css('p.excerpt::text').extract_first()
+        #     yield ArticleItem(
+        #         title = title,
+        #         url = url,
+        #         publish_date = publish_date,
+        #         content = content,
+        #         # TODO
+        #         # authors = '',
+        #         # tags = tags,
+        #     )
+        #
+        # for author_url in set(response.css('.river .river-block a[rel=author]::attr(href)').extract()):
+        #     author_url = response.urljoin(author_url)
+        #     yield Request(author_url, callback=self.parse_author)
 
 
     def parse_author(self, response):

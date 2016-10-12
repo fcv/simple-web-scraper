@@ -32,3 +32,20 @@ class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
         fields = ('id', 'title', 'url', 'publish_date', 'content')
+
+
+class Outlet(models.Model):
+
+    name = models.CharField(max_length=100)
+    description = models.CharField(max_length=500)
+    url = models.URLField()
+    logo_url = models.URLField()
+
+    def __str__(self):
+        return u'%s' % (self.name)
+
+
+class OutletSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Outlet
+        fields = ('id', 'name', 'description', 'url', 'logo_url')

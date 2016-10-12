@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'simple_web_scraper',
     'articles',
+    'scraper',
 )
 
 MIDDLEWARE_CLASSES = (

@@ -1,5 +1,6 @@
 from django.http import HttpResponse, Http404, HttpResponseBadRequest
 from django.db.models import Q
+
 from articles.models import Author, AuthorSerializer, Article, ArticleSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -9,6 +10,38 @@ from django.shortcuts import render
 
 def home(request):
     return render(request, "home.html")
+
+
+def scrape_it(request):
+    """
+    Triggers TechCrunchSpider
+
+    Note: Currently it is only possible to called it once. When trying to call it an second time an
+    `ReactorNotRestartable` raises.
+
+    Consider taking a look at following Projects in order to find a better solution:
+     - http://stackoverflow.com/questions/26921879/starting-scrapy-from-a-django-view,
+     - https://django-dynamic-scraper.readthedocs.io/en/latest/index.html,
+     - http://www.celeryproject.org/
+
+    :param request: Django's HttpRequest object
+    :return: HttpResponse
+    """
+    from scraper.spiders.scrapers import TechChunchSpider
+
+    # scrapy api
+    from twisted.internet import reactor
+    from scrapy.crawler import CrawlerRunner
+    from scrapy.utils.log import configure_logging
+
+    configure_logging({'LOG_FORMAT': '%(levelname)s: %(message)s'})
+    runner = CrawlerRunner()
+
+    d = runner.crawl(TechChunchSpider)
+    d.addBoth(lambda _: reactor.stop())
+    reactor.run()
+
+    return HttpResponse('Done')
 
 
 class ArticleList(APIView):

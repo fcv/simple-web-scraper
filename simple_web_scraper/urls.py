@@ -31,6 +31,7 @@ urlpatterns = [
     url(r'^api/rest/v1/authors/?$', views.AuthorList.as_view()),
     url(r'^api/rest/v1/authors/(?P<id>[0-9]+)/?$', views.AuthorDetail.as_view()),
 
+    url(r'^scrape_it/$', views.scrape_it)
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

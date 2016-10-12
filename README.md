@@ -38,9 +38,9 @@ Project dependencies are declared in `requirements.txt` file and may be installe
 
 ### Web Spider
 
-Web Spider is implemented using [scapy](https://github.com/scrapy/scrapy) library. Web spider crawling process may be triggered by executing `scrapy crawl <spider_name>` under `./scraper` folder. Example:
+Web Spider is implemented using [scapy](https://github.com/scrapy/scrapy) library. Web spider crawling process may be triggered by executing `scrapy crawl <spider_name>` command. Example:
 
-    user@host:~/simple-web-scraper/scraper$ scrapy crawl tech_crunch
+    user@host:~/simple-web-scraper$ scrapy crawl tech_crunch
 
 ### Web App
 

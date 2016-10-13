@@ -38,7 +38,7 @@ Project dependencies are declared in `requirements.txt` file and may be installe
 
 ### Database
 
-Project has been developed targeting PostgreSQL DBMS. Its default connection property values are defined in [./simple_web_scraper/settings.py] file and they target CI environment's database, see [.gitlab-ci.yml] file.
+Project has been developed targeting PostgreSQL DBMS. Its default connection property values are defined in [simple_web_scraper/settings.py](simple_web_scraper/settings.py#L84) file and they target CI environment's database, see [.gitlab-ci.yml](.gitlab-ci.yml#L10) file.
 
 There are two ways to overwrite those properties at Development environment:
 

@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
 
     # /articles
+    url(r'^articles/$', views.articles),
     url(r'^api/rest/v1/articles/?$', views.ArticleList.as_view()),
     url(r'^api/rest/v1/articles/(?P<id>[0-9]+)/?$', views.ArticleDetail.as_view()),
 

@@ -1,4 +1,5 @@
 # Simple Web Scraper
+![build status](https://gitlab.com/fcv/simple-web-scraper/badges/master/build.svg "Build Status")
 
 ## About
 

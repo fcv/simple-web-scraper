@@ -61,7 +61,7 @@ class AuthorEndpointTest(TransactionTestCase):
         # see more about jsonpath at http://goessner.net/articles/JsonPath/
         # and its python port at https://github.com/kennknowles/python-jsonpath-rw
         actual_ids = [match.value for match in parse('$.[*].id').find(content_json)]
-        self.assertEquals([1, 2], actual_ids)
+        self.assertEquals([2, 1], actual_ids)
 
     def test_404_when_id_doesnt_exist(self):
         client = Client()

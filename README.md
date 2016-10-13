@@ -41,21 +41,20 @@ Project dependencies are declared in `requirements.txt` file and may be installe
 
 Project has been developed targeting PostgreSQL DBMS. Its default connection property values are defined in [simple_web_scraper/settings.py](simple_web_scraper/settings.py#L84) file and they target CI environment's database, see [.gitlab-ci.yml](.gitlab-ci.yml#L10) file.
 
-There are two ways to overwrite those properties at Development environment:
+There are two ways to overwrite those properties at Development environment. Either by defining connection URL using `DATABASE_URL` environment variable. Example:
 
-1. Define connection URL using `DATABASE_URL` environment variable. Example:
+    $ (new_virtual_env) user@host:~/simple-web-scraper$ pip install -r requirements.txt
 
-    $ export DATABASE_URL='postgres://user:pwd@host:port/databasename'
+Or by overwriting `simple_web_scraper.settings.DATABASES` values in untracked file `local_settings.py`. Example of `simple_web_scraper/local_settings.py` file:
 
-2. Overwrite `simple_web_scraper.settings.DATABASES` values in untracked file `local_settings.py`. Example:
+```python
+from simple_web_scraper.settings import *
 
-    $ cat ./simple_web_scraper/local_settings.py
-    from simple_web_scraper.settings import *
-    
-    DATABASES['default']['HOST'] = 'localhost'
-    DATABASES['default']['PORT'] = '5432'
-    
-    DEBUG = True
+DATABASES['default']['HOST'] = 'localhost'
+DATABASES['default']['PORT'] = '5432'
+
+DEBUG = True
+```
 
 #### Database's Sctructure Creation
 

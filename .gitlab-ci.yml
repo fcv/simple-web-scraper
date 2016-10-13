@@ -1,0 +1,47 @@
+# some example of GitLab's CI file for python projects
+# - https://dezoito.github.io/2016/05/11/django-gitlab-continuous-integration-phantomjs.html
+# - https://docs.gitlab.com/ce/ci/examples/test-and-deploy-python-application-to-heroku.html
+image: python:3.5
+
+variables:
+  # Configure postgres service (https://hub.docker.com/_/postgres/)
+  # based on https://gitlab.com/gitlab-examples/postgres/blob/master/.gitlab-ci.yml
+  # and http://docs.gitlab.com/ce/ci/services/postgres.html
+  POSTGRES_DB: web_scraper_test
+  POSTGRES_USER: web_scraper_user
+  POSTGRES_PASSWORD: web_scraper_pwd
+
+stages:
+  - test
+  - deploy
+
+test:
+  stage: test
+  services:
+    - postgres:9.3
+  script:
+    # installs libpq-dev which is required by psycopg2
+    # avoiding error message like:
+    #     Error: b'You need to install postgresql-server-dev-X.Y for building a server-side extension or libpq-dev for building a client-side application.\n'
+    # see more at https://pypi.python.org/pypi/psycopg2
+    - apt-get -qq update
+    - apt-get -y -qq install libpq-dev
+    # install project's dependencies
+    - pip install -r requirements.txt
+    # actually execute tests
+    - python3 manage.py test --noinput
+
+# deploy job based on https://docs.gitlab.com/ce/ci/examples/test-and-deploy-python-application-to-heroku.html
+# see also https://docs.gitlab.com/ce/ci/examples/deployment/README.html
+# see also
+deploy:
+  stage: deploy
+  image: ruby:2.1
+  script:
+  - apt-get update -qy
+  - apt-get install -y ruby-dev
+  - gem install dpl
+  - dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_API_KEY
+  # Consider deploying to Heroku only for tags
+  # only:
+  # - tags

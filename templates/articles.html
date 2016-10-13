@@ -1,0 +1,22 @@
+{% extends "base-template.html" %}
+
+{% block content %}
+<h3>Articles</h3>
+
+{% for article in articles %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4><a href="{{ article.url }}" target="_blank">{{ article.title}} <i class="fa fa-1 fa-external-link"></i></a></h4>
+        </div>
+        <div class="panel-body">
+            <blockquote class="blockquote">
+              <p class="m-b-0">{{ article.content }}</p>
+                {% for author in article.authors.all %}
+                    <a href="{{ author.profile_url }}" target="_blank"><footer class="blockquote-footer">{{author.name}} <i class="fa fa-1 fa-external-link"></i></a></footer>
+                {% endfor %}
+            </blockquote>
+        </div>
+    </div>
+{% endfor %}
+
+{% endblock %}

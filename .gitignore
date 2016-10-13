@@ -91,3 +91,9 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# django sqlite file
+db.sqlite3
+
+# PyCharm's .idea directory
+.idea/

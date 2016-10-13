@@ -24,7 +24,7 @@ class OutletList(APIView):
     """
 
     def get(self, request, format = None):
-        outlets = Outlet.objects.all()
+        outlets = Outlet.objects.all().order_by('-id')
         serializer = OutletSerializer(outlets, many=True)
         return Response(serializer.data)
 
@@ -37,7 +37,7 @@ class OutletList(APIView):
 
 
 def articles(request):
-    articles = Article.objects.all()
+    articles = Article.objects.all().order_by('-id')
     return render(request, 'articles.html', {
         'articles': articles,
         'active_menu': 'articles',
@@ -55,7 +55,7 @@ class ArticleList(APIView):
     """
 
     def get(self, request, format = None):
-        articles = Article.objects.all()
+        articles = Article.objects.all().order_by('-id')
         if 'q' in request.GET:
             q = request.GET['q']
             if q:
@@ -169,7 +169,7 @@ class AuthorList(APIView):
     """
 
     def get(self, request, format = None):
-        authors = Author.objects.all()
+        authors = Author.objects.all().order_by('-id')
         serializer = AuthorSerializer(authors, many=True)
         return Response(serializer.data)
 

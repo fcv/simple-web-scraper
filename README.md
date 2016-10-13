@@ -36,6 +36,42 @@ Project dependencies are declared in `requirements.txt` file and may be installe
 
     $ (new_virtual_env) user@host:~/simple-web-scraper$ pip install -r requirements.txt
 
+### Database
+
+Project has been developed targeting PostgreSQL DBMS. Its default connection property values are defined in [./simple_web_scraper/settings.py] file and they target CI environment's database, see [.gitlab-ci.yml] file.
+
+There are two ways to overwrite those properties at Development environment:
+
+1. Define connection URL using `DATABASE_URL` environment variable. Example:
+
+    $ export DATABASE_URL='postgres://user:pwd@host:port/databasename'
+
+2. Overwrite `simple_web_scraper.settings.DATABASES` values in untracked file `local_settings.py`. Example:
+
+    $ cat ./simple_web_scraper/local_settings.py
+    from simple_web_scraper.settings import *
+    
+    DATABASES['default']['HOST'] = 'localhost'
+    DATABASES['default']['PORT'] = '5432'
+    
+    DEBUG = True
+
+#### Database's Sctructure Creation
+
+Database's Tables may be created executing:
+
+    $ (new_virtual_env) user@host:~/simple-web-scraper$ python manage.py migrate
+
+#### Note about PostgreSQL usage
+
+In ubuntu environment, in order to install PostgreSQL database adapter [psycopg2](https://pypi.python.org/pypi/psycopg2) it is necessary first to install `libpq-dev` package in order to avoid error message like one below:
+
+    Error: b'You need to install postgresql-server-dev-X.Y for building a server-side extension or libpq-dev for building a client-side application.\n'
+
+This could be achieved by executing:
+
+    $ sudo apt-get install libpq-dev
+
 ### Web Spider
 
 Web Spider is implemented using [scapy](https://github.com/scrapy/scrapy) library. Web spider crawling process may be triggered by executing `scrapy crawl <spider_name>` command. Example:
@@ -80,9 +116,3 @@ Article's endpoint supports a query parameter named `"q"`. When provided system 
             "content": "If I’m Samsung, I’m looking for the next big product to capture the public’s attention while my public relations wing is attempting to put out all a whole lot of proverbial fires (to go along with the literal variety). This isn’t that. In fact, Samsung just kind of let this one loose into the world without any real fanfare. And it’s got a name to match.\nThe… "
         }
     ]
-
-### Note about PostgreSQL usage
-
-In ubuntu environment, in order to install PostgreSQL database adapter [psycopg2](https://pypi.python.org/pypi/psycopg2) it is necessary first to install `libpq-dev` package in order to avoid error message like one below:
-
-    Error: b'You need to install postgresql-server-dev-X.Y for building a server-side extension or libpq-dev for building a client-side application.\n'
